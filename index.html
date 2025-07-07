@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mabar Mobile Legends</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://files.catbox.moe/0f3957.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+      cursor: url('https://cur.cursors-4u.net/games/gam-13/gam1253.cur'), auto;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: inherit;
+      background-size: cover;
+      background-position: center;
+      filter: blur(8px);
+      z-index: -2;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(6px);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      position: relative;
+    }
+
+    h1, p, .button-row, #formSection {
+      animation: zoomFadeIn 0.8s ease forwards;
+      opacity: 0;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      line-height: 1.2em;
+      animation-delay: 0.2s;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      animation-delay: 0.4s;
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      margin-bottom: 30px;
+      width: 100%;
+      max-width: 400px;
+      animation-delay: 0.6s;
+    }
+
+    .btn-wrap {
+      position: relative;
+      width: 100px;
+      height: 60px;
+    }
+
+    button {
+      padding: 15px 25px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1em;
+      cursor: pointer;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      color: white;
+      font-weight: bold;
+      transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 15px 3px #facc15;
+    }
+
+    #yesBtn { background-color: #10b981; }
+    #noBtn { background-color: #ef4444; }
+
+    #formSection {
+      display: none;
+      margin-top: 20px;
+      animation-delay: 0.6s;
+      width: 100%;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .form-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .form-wrap input {
+      padding: 10px;
+      width: 100%;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+    }
+
+    #gasBtn {
+      background-color: #fbbf24;
+      color: black;
+      padding: 12px 24px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1em;
+      cursor: pointer;
+      margin-top: 20px;
+      position: static;
+      width: 100%;
+    }
+
+    #gasBtn:hover {
+      background-color: #facc15;
+      box-shadow: 0 0 15px 3px #facc15;
+    }
+
+    @keyframes zoomFadeIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Spinner */
+    #loadingSpinner {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      color: white;
+      z-index: 999;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #fbbf24;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    .bar {
+      width: 0%;
+      height: 5px;
+      background: #10b981;
+      animation: progress 2s forwards;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes progress {
+      to { width: 100%; }
+    }
+
+    /* Watermark */
+    .watermark {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      font-size: 0.9em;
+      color: rgba(255, 255, 255, 0.6);
+      z-index: 10;
+      font-style: italic;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>
+      Mau Mabar<br>
+      Mobile Legends?
+    </h1>
+    <p>Ayo Bareng Bareng Push Rank Dan WS bareng 😎</p>
+
+    <div class="button-row" id="buttonSection">
+      <div class="btn-wrap"><button id="yesBtn">Yes</button></div>
+      <div class="btn-wrap"><button id="noBtn">No</button></div>
+    </div>
+
+    <div id="formSection">
+      <div class="form-wrap">
+        <input type="text" id="mlid" placeholder="Masukkan ID Mobile Legends">
+        <input type="text" id="jamMain" placeholder="Jam kamu bisa main">
+        <button id="gasBtn">Gas Ken Main</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="watermark">Created by Kyluesky</div>
+
+  <!-- Musik dan suara -->
+  <audio id="bgm" loop autoplay>
+    <source src="https://files.catbox.moe/uj4xjv.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="clickSound" src="https://www.myinstants.com/media/sounds/among-us-role-reveal.mp3"></audio>
+  <audio id="hoverSound" src="https://www.myinstants.com/media/sounds/menu-click.mp3"></audio>
+
+  <!-- Spinner -->
+  <div id="loadingSpinner">
+    <div class="spinner"></div>
+    <p>Menghubungkan ke WhatsApp...</p>
+    <div class="bar"></div>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const gasBtn = document.getElementById('gasBtn');
+    const buttonSection = document.getElementById('buttonSection');
+    const formSection = document.getElementById('formSection');
+    const clickSound = document.getElementById('clickSound');
+    const hoverSound = document.getElementById('hoverSound');
+    const bgm = document.getElementById('bgm');
+    const spinner = document.getElementById('loadingSpinner');
+    const bar = document.querySelector('.bar');
+
+    yesBtn.onclick = () => {
+      clickSound.play();
+      bgm.volume = 0.4;
+      bgm.play();
+      buttonSection.style.display = 'none';
+      formSection.style.display = 'block';
+      formSection.style.animation = 'zoomFadeIn 0.5s ease forwards';
+    };
+
+    noBtn.onclick = () => {
+      clickSound.play();
+      const wrap = noBtn.parentElement;
+      const x = Math.floor(Math.random() * (window.innerWidth - 150));
+      const y = Math.floor(Math.random() * (window.innerHeight - 150));
+      wrap.style.position = 'absolute';
+      wrap.style.left = `${x}px`;
+      wrap.style.top = `${y}px`;
+    };
+
+    document.querySelectorAll('button').forEach(btn => {
+      btn.onmouseenter = () => {
+        hoverSound.currentTime = 0;
+        hoverSound.play();
+      };
+    });
+
+    gasBtn.onclick = () => {
+      const id = document.getElementById('mlid').value.trim();
+      const jam = document.getElementById('jamMain').value.trim();
+      const nomorWa = '6287859822633'; // Ganti nomormu di sini
+
+      if (!id || !jam) {
+        alert('Isi semua data dulu ya!');
+        return;
+      }
+
+      bgm.pause();
+      spinner.style.display = 'flex';
+      bar.style.width = '0%';
+      bar.style.animation = 'progress 2s forwards';
+
+      setTimeout(() => {
+        const pesan = `Halo, saya mau mabar ML nih!\nID: ${id}\nJam: ${jam}`;
+        const url = `https://wa.me/${nomorWa}?text=${encodeURIComponent(pesan)}`;
+        window.location.href = url;
+      }, 2000);
+    };
+  </script>
+</body>
+</html>
+
+
