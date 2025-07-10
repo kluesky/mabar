@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -131,7 +130,7 @@
       border: none;
       font-size: 1em;
       cursor: pointer;
-      margin-top: 20px;
+      margin-top: 10px;
       position: static;
       width: 100%;
     }
@@ -152,46 +151,6 @@
       }
     }
 
-    #loadingSpinner {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: black;
-      color: white;
-      z-index: 999;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .spinner {
-      border: 6px solid #f3f3f3;
-      border-top: 6px solid #fbbf24;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      animation: spin 1s linear infinite;
-      margin-bottom: 15px;
-    }
-
-    .bar {
-      width: 0%;
-      height: 5px;
-      background: #10b981;
-      animation: progress 2s forwards;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes progress {
-      to { width: 100%; }
-    }
-
     .watermark {
       position: fixed;
       bottom: 10px;
@@ -201,6 +160,24 @@
       z-index: 10;
       font-style: italic;
       user-select: none;
+    }
+
+    label {
+      width: 100%;
+      text-align: left;
+      font-size: 0.95em;
+    }
+
+    #jumpscare {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      background: black;
     }
   </style>
 </head>
@@ -216,40 +193,17 @@
 
     <div id="formSection">
       <div class="form-wrap">
-        <input type="number" id="mlid" placeholder="Masukkan ID Mobile Legends" min="1" inputmode="numeric" pattern="[0-9]*">
-       <select id="jamMain">
-  <option value="">Pilih jam kamu bisa main</option>
-  <option value="00:00 WIB">00:00 WIB</option>
-  <option value="01:00 WIB">01:00 WIB</option>
-  <option value="02:00 WIB">02:00 WIB</option>
-  <option value="03:00 WIB">03:00 WIB</option>
-  <option value="04:00 WIB">04:00 WIB</option>
-  <option value="05:00 WIB">05:00 WIB</option>
-  <option value="06:00 WIB">06:00 WIB</option>
-  <option value="07:00 WIB">07:00 WIB</option>
-  <option value="08:00 WIB">08:00 WIB</option>
-  <option value="09:00 WIB">09:00 WIB</option>
-  <option value="10:00 WIB">10:00 WIB</option>
-  <option value="11:00 WIB">11:00 WIB</option>
-  <option value="12:00 WIB">12:00 WIB</option>
-  <option value="13:00 WIB">13:00 WIB</option>
-  <option value="14:00 WIB">14:00 WIB</option>
-  <option value="15:00 WIB">15:00 WIB</option>
-  <option value="16:00 WIB">16:00 WIB</option>
-  <option value="17:00 WIB">17:00 WIB</option>
-  <option value="18:00 WIB">18:00 WIB</option>
-  <option value="19:00 WIB">19:00 WIB</option>
-  <option value="20:00 WIB">20:00 WIB</option>
-  <option value="21:00 WIB">21:00 WIB</option>
-  <option value="22:00 WIB">22:00 WIB</option>
-  <option value="23:00 WIB">23:00 WIB</option>
-</select>
+        <input type="number" id="mlid" placeholder="Masukkan ID Mobile Legends" min="1" pattern="[0-9]*">
+        <label for="jamMain">Silakan atur jam kamu bisa main:</label>
+        <input type="time" id="jamMain">
         <button id="gasBtn">Gas Ken Main</button>
       </div>
     </div>
   </div>
 
-  <div class="watermark">Created by Kyluesky</div>
+  <video id="jumpscare" playsinline preload="auto" muted autoplay>
+    <source src="https://files.catbox.moe/4b0vc7.mp4" type="video/mp4">
+  </video>
 
   <audio id="bgm" loop autoplay>
     <source src="https://files.catbox.moe/uj4xjv.mp3" type="audio/mpeg">
@@ -257,11 +211,7 @@
   <audio id="clickSound" src="https://www.myinstants.com/media/sounds/among-us-role-reveal.mp3"></audio>
   <audio id="hoverSound" src="https://www.myinstants.com/media/sounds/menu-click.mp3"></audio>
 
-  <div id="loadingSpinner">
-    <div class="spinner"></div>
-    <p>Menghubungkan ke WhatsApp...</p>
-    <div class="bar"></div>
-  </div>
+  <div class="watermark">Created by Kyluesky</div>
 
   <script>
     const yesBtn = document.getElementById('yesBtn');
@@ -272,8 +222,7 @@
     const clickSound = document.getElementById('clickSound');
     const hoverSound = document.getElementById('hoverSound');
     const bgm = document.getElementById('bgm');
-    const spinner = document.getElementById('loadingSpinner');
-    const bar = document.querySelector('.bar');
+    const jumpscare = document.getElementById('jumpscare');
 
     yesBtn.onclick = () => {
       clickSound.play();
@@ -286,6 +235,15 @@
 
     noBtn.onclick = () => {
       clickSound.play();
+      jumpscare.currentTime = 0;
+      jumpscare.muted = false;
+      jumpscare.style.display = 'block';
+      jumpscare.play();
+
+      jumpscare.onended = () => {
+        jumpscare.style.display = 'none';
+      };
+
       const wrap = noBtn.parentElement;
       const x = Math.floor(Math.random() * (window.innerWidth - 150));
       const y = Math.floor(Math.random() * (window.innerHeight - 150));
@@ -317,15 +275,9 @@
       }
 
       bgm.pause();
-      spinner.style.display = 'flex';
-      bar.style.width = '0%';
-      bar.style.animation = 'progress 2s forwards';
-
-      setTimeout(() => {
-        const pesan = `Halo, saya mau mabar ML nih!\nID: ${id}\nJam: ${jam}`;
-        const url = `https://wa.me/${nomorWa}?text=${encodeURIComponent(pesan)}`;
-        window.location.href = url;
-      }, 2000);
+      const pesan = `Halo, saya mau mabar ML nih!\nID: ${id}\nJam: ${jam}`;
+      const url = `https://wa.me/${nomorWa}?text=${encodeURIComponent(pesan)}`;
+      window.location.href = url;
     };
   </script>
 </body>
